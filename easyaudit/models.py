@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 
 class CRUDEvent(models.Model):
@@ -63,7 +64,8 @@ class CRUDEvent(models.Model):
         help_text=_("String version of the user pk"),
         verbose_name=_("User PK as string"),
     )
-    datetime = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
+    # datetime = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
+    datetime = models.DateTimeField(default=timezone.now, verbose_name=_("Date time"))
 
     class Meta:
         verbose_name = _("CRUD event")
@@ -114,7 +116,9 @@ class LoginEvent(models.Model):
 
 
 class RequestEvent(models.Model):
-    url = models.CharField(null=False, db_index=True, max_length=254, verbose_name=_("URL"))
+    url = models.CharField(
+        null=False, db_index=True, max_length=254, verbose_name=_("URL")
+    )
     method = models.CharField(
         max_length=20, null=False, db_index=True, verbose_name=_("Method")
     )
