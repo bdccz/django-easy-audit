@@ -71,14 +71,15 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         "object_json_repr_prettified",
         "get_user",
         "user_pk_as_string",
-        "datetime",
         "changed_fields_prettified",
     ]
     exclude = ["object_json_repr", "changed_fields"]
 
     def get_changelist_instance(self, *args, **kwargs):
         changelist_instance = super().get_changelist_instance(*args, **kwargs)
-        content_type_ids = [obj.content_type_id for obj in changelist_instance.result_list]
+        content_type_ids = [
+            obj.content_type_id for obj in changelist_instance.result_list
+        ]
         self.content_types_by_id = {
             ct.id: ct for ct in ContentType.objects.filter(id__in=content_type_ids)
         }
